@@ -3,7 +3,7 @@
 define root view entity ZI_RAP_Travel_ZTHE
   as select from zrap_atrav_zthe as Travel
 
-   composition [0..*] of ZI_RAP_Booking_ZTHE as _Booking //on $projection.TravelUUID = _Booking.TravelUUID
+   composition of ZI_RAP_Booking_ZTHE as _Booking //on $projection.TravelUUID = _Booking.TravelUUID
    
    association [0..1] to /DMO/I_Agency       as _Agency   on $projection.AgencyID = _Agency.AgencyID
    association [0..1] to /DMO/I_Customer     as _Customer on $projection.CustomerID = _Customer.CustomerID
