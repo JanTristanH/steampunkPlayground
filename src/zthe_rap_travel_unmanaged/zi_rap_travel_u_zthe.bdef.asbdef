@@ -1,0 +1,26 @@
+managed implementation in class zbp_i_rap_travel_u_zthe unique;
+strict ( 2 );
+
+define behavior for ZI_RAP_TRAVEL_U_ZTHE //alias <alias_name>
+persistent table /DMO/TRAVEL
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create;
+  update;
+  delete;
+  association _Booking { create; }
+}
+
+define behavior for ZI_RAP_BOOKING_U_ZTHE //alias <alias_name>
+persistent table /DMO/BOOKING
+lock dependent by _Travel
+authorization dependent by _Travel
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly ) TravelID;
+  association _Travel;
+}
