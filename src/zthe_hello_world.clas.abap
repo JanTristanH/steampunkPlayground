@@ -11,7 +11,9 @@ ENDCLASS.
 
 
 
-CLASS zthe_hello_world IMPLEMENTATION.
+CLASS ZTHE_HELLO_WORLD IMPLEMENTATION.
+
+
   METHOD if_oo_adt_classrun~main.
     TRY.
         out->write( |Hello world ({ cl_abap_context_info=>get_user_business_partner_id( ) })| ).
@@ -19,5 +21,4 @@ CLASS zthe_hello_world IMPLEMENTATION.
     ENDTRY.
     out->write( |sy-uname({ sy-uname })| ).
   ENDMETHOD.
-
 ENDCLASS.

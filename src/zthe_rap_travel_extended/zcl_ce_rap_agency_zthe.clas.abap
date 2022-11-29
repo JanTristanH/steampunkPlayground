@@ -33,7 +33,8 @@ ENDCLASS.
 
 
 
-CLASS zcl_ce_rap_agency_zthe IMPLEMENTATION.
+CLASS ZCL_CE_RAP_AGENCY_ZTHE IMPLEMENTATION.
+
 
   METHOD if_oo_adt_classrun~main.
 
@@ -64,6 +65,7 @@ CLASS zcl_ce_rap_agency_zthe IMPLEMENTATION.
 
 
   ENDMETHOD.
+
 
   METHOD get_agencies.
 
@@ -134,6 +136,7 @@ CLASS zcl_ce_rap_agency_zthe IMPLEMENTATION.
 
   ENDMETHOD.
 
+
   METHOD if_rap_query_provider~select.
     DATA business_data TYPE t_business_data.
     DATA(top)     = io_request->get_paging( )->get_page_size( ).
@@ -167,6 +170,4 @@ CLASS zcl_ce_rap_agency_zthe IMPLEMENTATION.
         DATA(exception_message) = cl_message_helper=>get_latest_t100_exception( exception )->if_message~get_longtext( ).
     ENDTRY.
   ENDMETHOD.
-
-
 ENDCLASS.
