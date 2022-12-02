@@ -1,0 +1,14 @@
+CLASS lhc_ZTHE_C_RAP_TRAVEL_COPY DEFINITION INHERITING FROM cl_abap_behavior_handler.
+  PRIVATE SECTION.
+
+    METHODS testTravel FOR MODIFY
+      IMPORTING keys FOR ACTION zthe_c_rap_travel_copy~testTravel RESULT result.
+
+ENDCLASS.
+
+CLASS lhc_ZTHE_C_RAP_TRAVEL_COPY IMPLEMENTATION.
+
+  METHOD testTravel.
+  ENDMETHOD.
+
+ENDCLASS.

@@ -1,0 +1,35 @@
+projection implementation in class zbp_the_c_rap_travel_copy unique;
+use draft;
+
+define behavior for ZTHE_C_RAP_TRAVEL_COPY //alias <alias_name>
+implementation in class zthe_rap_travel_test unique
+{
+  use create;
+  use update;
+  use delete;
+
+  use action acceptTravel;
+  use action rejectTravel;
+//  field ( mandatory : create , readonly : update ) AgencyID, CustomerID; //Only for Fiori ui * -> validation still needed
+//  field ( readonly : update ) CustomerID; //Only for Fiori ui * -> validation still needed | Customer can be only specified at creation
+
+    use action Prepare;
+
+    action  testTravel result [1] $self; //features : instance
+
+  use association _Booking
+  { create;
+      with draft;
+  }
+}
+
+define behavior for ZTHE_C_RAP_BOOKING_COPY //alias <alias_name>
+{
+  use update;
+  use delete;
+
+  use association _Travel
+  {
+      with draft;
+  }
+}

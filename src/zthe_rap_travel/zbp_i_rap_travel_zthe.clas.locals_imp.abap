@@ -59,23 +59,34 @@ CLASS lhc_Travel IMPLEMENTATION.
     " Read the travel status of the existing travels
     READ ENTITIES OF zi_rap_travel_ZTHE IN LOCAL MODE
       ENTITY Travel
-        FIELDS ( TravelStatus ) WITH CORRESPONDING #( keys )
+        FIELDS ( TravelStatus TravelID ) WITH CORRESPONDING #( keys )
       RESULT DATA(travels)
       FAILED failed.
 
     result =
       VALUE #(
         FOR travel IN travels
-          LET is_accepted =   COND #( WHEN travel-TravelStatus = travel_status-accepted
+          LET is_accepted =   COND #(
+                                      WHEN travel-%is_draft = 1
+                                      THEN if_abap_behv=>fc-o-disabled
+                                      WHEN travel-TravelStatus = travel_status-accepted
                                       THEN if_abap_behv=>fc-o-disabled
                                       ELSE if_abap_behv=>fc-o-enabled  )
-              is_rejected =   COND #( WHEN travel-TravelStatus = travel_status-canceled
+              is_rejected =   COND #( "Disable actions in draft
+                                      WHEN travel-%is_draft = 1
+                                      THEN if_abap_behv=>fc-o-disabled
+                                      WHEN travel-TravelStatus = travel_status-canceled
                                       THEN if_abap_behv=>fc-o-disabled
                                       ELSE if_abap_behv=>fc-o-enabled )
+              is_Custmer_ID_Enabled = COND #( "Disable actions in draft
+                                      WHEN travel-TravelID is INITIAL "only not set on create time
+                                      THEN if_abap_behv=>fc-f-mandatory
+                                      ELSE if_abap_behv=>fc-f-read_only )
           IN
             ( %tky                 = travel-%tky
               %action-acceptTravel = is_accepted
               %action-rejectTravel = is_rejected
+              %field-CustomerID    = is_Custmer_ID_Enabled
              ) ).
   ENDMETHOD.
 

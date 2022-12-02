@@ -16,7 +16,8 @@ etag master LocalLastChangedAt
   field ( numbering : managed, readonly ) TravelUUID;
   field ( readonly ) TravelID, TotalPrice, TravelStatus;
   field ( readonly ) LastChangedAt, LastChangedBy, CreatedAt, CreatedBy, LocalLastChangedAt;
-  field ( mandatory ) AgencyID, CustomerID; //Only for Fiori ui * -> validation still needed
+  field ( mandatory ) AgencyID; // CustomerID Only for Fiori ui * -> validation still needed
+  field ( features : instance ) CustomerID; //Only for Fiori ui * -> validation still needed | Customer can be only specified at creation
 
   action ( features : instance ) acceptTravel result [1] $self;
   action ( features : instance ) rejectTravel result [1] $self;
@@ -26,11 +27,12 @@ etag master LocalLastChangedAt
   determination calculateTotalPrice on modify { field BookingFee, CurrencyCode; }
   determination calculateTravelID on save { create; }
 
-  validation validateAgency   on save { field AgencyID; create; }
+  validation validateAgency on save { field AgencyID; create; }
   validation validateCustomer on save { field CustomerID; create; }
-  validation validateDates    on save { field BeginDate, EndDate; create; }
+  validation validateDates on save { field BeginDate, EndDate; create; }
 
-  draft determine action Prepare  {
+  draft determine action Prepare
+  {
     validation validateAgency;
     validation validateCustomer;
     validation validateDates;
@@ -60,12 +62,12 @@ etag master LocalLastChangedAt
 define behavior for ZI_RAP_Booking_ZTHE alias Booking
 implementation in class zbp_i_rap_booking_zthe unique
 persistent table zrap_abook_zthe
-draft table zrap_dbook_ZTHE
+draft table zrap_dbook_zthe
 lock dependent by _Travel
 authorization dependent by _Travel
 etag master LocalLastChangedAt
 {
-  association _Travel {with draft;}
+  association _Travel { with draft; }
 
   update;
   delete;
@@ -74,7 +76,7 @@ etag master LocalLastChangedAt
   field ( readonly ) TravelUUID, BookingId;
   field ( readonly ) CreatedBy, LastChangedBy, LocalLastChangedAt;
 
-  determination calculateBookingID  on modify { create; }
+  determination calculateBookingID on modify { create; }
   determination calculateTotalPrice on modify { field FlightPrice, CurrencyCode; }
 
 
