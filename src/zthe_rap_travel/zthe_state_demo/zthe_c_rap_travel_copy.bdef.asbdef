@@ -15,7 +15,7 @@ implementation in class zthe_rap_travel_test unique
 
     use action Prepare;
 
-    action  testTravel result [1] $self; //features : instance
+    action testTravel result [1] $self; //features : instance
 
   use association _Booking
   { create;
